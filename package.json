@@ -1,0 +1,50 @@
+{
+  "name": "edsm-bulk-publisher",
+  "version": "1.0.0",
+  "description": "Simply perform a bulk update of Elite Dangerous journal files to EDSM",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Veldrin055/edsm-bulk-publisher.git"
+  },
+  "keywords": [
+    "Elite Dangerous",
+    "elite",
+    "dangerous",
+    "edsm",
+    "edjr",
+    "expoloration"
+  ],
+  "author": "Daniel Morrison",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Veldrin055/edsm-bulk-publisher/issues"
+  },
+  "homepage": "https://github.com/Veldrin055/edsm-bulk-publisher#readme",
+  "devDependencies": {
+    "@types/node": "^12.0.25",
+    "@types/sane": "^2.0.0",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "edjr": "^1.0.10",
+    "enquirer": "^2.3.6"
+  },
+  "files": [
+    "dist/**/*"
+  ]
+}

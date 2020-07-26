@@ -1,15 +1,7 @@
-import { Journal } from 'edjr'
 import { prompt } from 'enquirer'
-import axios from 'axios'
+import client from './client'
 
 export default async () => {
-  const client = axios.create({
-    baseURL: 'https://www.edsm.net/',
-    responseType: 'json',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
   
   const { apiKey, journalDir, fromBeginning } = await prompt([
     {
@@ -29,7 +21,8 @@ export default async () => {
     },
   ])
   
-  const { data: discardEvents } = await client.get<string[]>('api-journal-v1/discard')
+  const discardEvents = await client.getDiscard()
+
   
   console.log('apiKey', apiKey)
   console.log('dir', journalDir)

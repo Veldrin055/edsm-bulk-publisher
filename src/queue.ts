@@ -1,6 +1,7 @@
 export type Queue = {
   submit: (i: any) => void
   processQueue: (callback: (slice: any[]) => void) => Promise<void>
+  length: number
 }
 
 const arr: any[] = []
@@ -24,6 +25,8 @@ const queue: Queue = {
     })
 
   },
+
+  length: arr.length
 }
 
 export default queue

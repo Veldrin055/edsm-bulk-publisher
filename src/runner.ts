@@ -1,9 +1,11 @@
 import { prompt } from 'enquirer'
 import client from './client'
+import queue from './queue'
+import readJournal from './journal'
 
 export default async () => {
   
-  const { apiKey, journalDir, fromBeginning } = await prompt([
+  const { apiKey, dir, fromBeginning } = await prompt([
     {
       type: 'input',
       name: 'apiKey',
@@ -11,7 +13,7 @@ export default async () => {
     },
     {
       type: 'input',
-      name: 'journalDir',
+      name: 'dir',
       message: 'Elite Dangerous journal dir path (skip to use default)',  
     },
     {
@@ -23,10 +25,17 @@ export default async () => {
   
   const discardEvents = await client.getDiscard()
 
-  
-  console.log('apiKey', apiKey)
-  console.log('dir', journalDir)
-  console.log(discardEvents)
+  readJournal(discardEvents, queue, { dir, fromBeginning })
+
+  console.log(`Events to process: ${queue.length}`)
+
+  await queue.processQueue((slice) => {
+    console.log(slice)
+  })
+
+  console.log('Bye!')
+
+
 }
 
 

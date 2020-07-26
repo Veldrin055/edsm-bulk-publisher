@@ -19,7 +19,7 @@ const client = axios.create({
 export default {
 
   getDiscard: async () => {
-    const { data } = await client.get<String[]>('api-journal-v1/discard')
+    const { data } = await client.get<string[]>('api-journal-v1/discard')
     return data
   },
   

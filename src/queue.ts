@@ -1,4 +1,4 @@
-export type Queue {
+export type Queue = {
   submit: (i: any) => void
   processQueue: (callback: (slice: any[]) => void) => Promise<void>
 }

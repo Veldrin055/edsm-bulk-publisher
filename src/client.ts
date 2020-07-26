@@ -25,12 +25,18 @@ export default {
   
   upload: async (config: EdsmConfig, message: any[]) => {
 
-    client.post('api-journal-v1', {
-      ...config,
-      fromSoftware,
-      fromSotwareVersion,
-      message,
-    })
+    try {
+        const { data, status } = await client.post('api-journal-v1', {
+        ...config,
+        fromSoftware,
+        fromSotwareVersion,
+        message,
+      })
+      return { data, status }
+    } catch (err) {
+      console.log(err.toJson())
+      return { data: null, status: err.status }
+    }
   },
 
 

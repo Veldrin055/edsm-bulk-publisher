@@ -1,21 +1,14 @@
-export type Queue = {
-  submit: (i: any) => void
-  processQueue: (callback: (slice: any[]) => void) => Promise<void>
-  length: number
-}
-
-const arr: any[] = []
-
-const queue: Queue = {
+export default class Queue<T> {
+  private arr: T[] = []
   
-  submit: (i) => {
-    arr.push(i)
-  },
+  public submit (i: T): void {
+    this.arr.push(i)
+  }
 
-  processQueue: (callback: (slice: any[]) => void) => {
+  public async processQueue(callback: (slice: T[]) => void) {
     return new Promise((resolve, reject) => {
       const job = setInterval(() => {
-        const slice = arr.splice(0, 50)
+        const slice = this.arr.splice(0, 50)
         if (!slice) {
           clearInterval(job)
           resolve()
@@ -24,9 +17,10 @@ const queue: Queue = {
       }, 3000)
     })
 
-  },
+  }
 
-  length: arr.length
+  public length() {
+    return this.arr.length
+  }
+
 }
-
-export default queue

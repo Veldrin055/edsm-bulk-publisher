@@ -1,10 +1,10 @@
 import { Journal, JournalEvent } from 'edjr'
 import { ScanOptions } from 'edjr/dist/journal' // todo fix this
-import { Queue } from './queue'
+import Queue from './queue'
 
-export default (
+export default async (
   discardEvents: string[],
-  queue: Queue, 
+  queue: Queue<string>, 
   scanOptions: ScanOptions) => {
 
   const journal = new Journal()
@@ -14,5 +14,5 @@ export default (
     }
   })
 
-  journal.scan({ fromBeginning: scanOptions.fromBeginning })
+  return journal.scan({ fromBeginning: scanOptions.fromBeginning })
 }

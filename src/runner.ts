@@ -1,6 +1,6 @@
 import { prompt } from 'enquirer'
-import client from './client'
-import queue from './queue'
+import client, { EdsmConfig } from './client'
+import Queue from './queue'
 import readJournal from './journal'
 
 export default async () => {
@@ -22,15 +22,20 @@ export default async () => {
       message: 'Do you want to start scanning from the beginning?'
     },
   ])
+
+  const config: EdsmConfig = { apiKey, commanderName: 'Veldrin Hedgehog' }
   
   const discardEvents = await client.getDiscard()
 
-  readJournal(discardEvents, queue, { dir, fromBeginning })
+  const queue = new Queue<string>()
 
-  console.log(`Events to process: ${queue.length}`)
+  await readJournal(discardEvents, queue, { dir, fromBeginning })
 
-  await queue.processQueue((slice) => {
-    console.log(slice)
+  console.log(`Events to process: ${queue.length()}`)
+
+  await queue.processQueue(async (slice) => {
+    const { data, status } = await client.upload(config, slice)
+    console.log(`${status}: ${JSON.stringify(data)}`)
   })
 
   console.log('Bye!')
